@@ -77,15 +77,15 @@ botoMostrar.addEventListener('click', function() {
         return;
     }
     
+    // Recollim totes les respostes guardades i les mostrem
     for (var i = 0; i < localStorage.length; i++) {
         var clau = localStorage.key(i);
         // Comprovem si la clau correspon a un usuari
         if (clau.startsWith('usuari_')) {
-            var respostes = JSON.parse(localStorage.getItem(clau));
-            // Creem una llista amb les respostes
-            var llista = `<h3>${clau}:</h3><ul>`;
-            for (var pregunta in respostes) {
-                llista += `<li>${pregunta}: ${cares[respostes[pregunta]]} (${respostes[pregunta]})</li>`;
+            var respostesGuardades = JSON.parse(localStorage.getItem(clau));
+            var llista = `<h3>Respostes de ${clau}:</h3><ul>`;
+            for (var pregunta in respostesGuardades) {
+                llista += `<li>${pregunta}: ${cares[respostesGuardades[pregunta]]} (${respostesGuardades[pregunta]})</li>`;
             }
             llista += '</ul>';
             contenedorRespostes.innerHTML += llista;
