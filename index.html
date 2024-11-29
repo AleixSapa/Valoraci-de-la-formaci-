@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enquesta de Valoració</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Enquesta de Valoració de la Formació</h1>
+    <form id="formulari-enquesta">
+        <!-- Preguntes amb les caretes -->
+        <div class="pregunta">
+            <p>1. Com valores el contingut de la formació?</p>
+            <div class="opcions">
+                <span class="cara" data-valor="1">😢</span>
+                <span class="cara" data-valor="2">😐</span>
+                <span class="cara" data-valor="3">😊</span>
+            </div>
+        </div>
+        <div class="pregunta">
+            <p>2. Com valores el professor?</p>
+            <div class="opcions">
+                <span class="cara" data-valor="1">😢</span>
+                <span class="cara" data-valor="2">😐</span>
+                <span class="cara" data-valor="3">😊</span>
+            </div>
+        </div>
+        <div class="pregunta">
+            <p>3. Va complir amb les teves expectatives?</p>
+            <div class="opcions">
+                <span class="cara" data-valor="1">😢</span>
+                <span class="cara" data-valor="2">😐</span>
+                <span class="cara" data-valor="3">😊</span>
+            </div>
+        </div>
+        <div class="pregunta">
+            <p>4. Com valores l'organització?</p>
+            <div class="opcions">
+                <span class="cara" data-valor="1">😢</span>
+                <span class="cara" data-valor="2">😐</span>
+                <span class="cara" data-valor="3">😊</span>
+            </div>
+        </div>
+        <div class="pregunta">
+            <p>5. La durada de la formació era adequada?</p>
+            <div class="opcions">
+                <span class="cara" data-valor="1">😢</span>
+                <span class="cara" data-valor="2">😐</span>
+                <span class="cara" data-valor="3">😊</span>
+            </div>
+        </div>
+        <div class="pregunta">
+            <p>6. Recomanaries aquesta formació a algú?</p>
+            <div class="opcions">
+                <span class="cara" data-valor="1">😢</span>
+                <span class="cara" data-valor="2">😐</span>
+                <span class="cara" data-valor="3">😊</span>
+            </div>
+        </div>
+        <!-- Botons per gestionar l'enquesta -->
+        <button type="button" id="enviar">Envia les respostes</button>
+        <button type="button" id="mostrar-respostes">Mostra totes les respostes</button>
+    </form>
+    <div id="totes-les-respostes"></div>
+    <script src="script.js"></script>
+</body>
+</html>

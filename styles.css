@@ -1,0 +1,53 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+.pregunta {
+    margin: 20px 0;
+}
+
+.opcions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.cara {
+    font-size: 50px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.cara:hover {
+    transform: scale(1.2);
+}
+
+.cara.seleccionada {
+    transform: scale(1.4);
+    color: orange;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#totes-les-respostes {
+    margin-top: 30px;
+    text-align: left;
+}
+
+#totes-les-respostes h3 {
+    margin: 10px 0 5px;
+}
+
+#totes-les-respostes ul {
+    list-style: none;
+    padding: 0;
+}
