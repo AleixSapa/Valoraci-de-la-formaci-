@@ -7,32 +7,58 @@ var cares = {
     3: '😊'
 };
 
-// Obtenim les preguntes i el formulari
-var preguntes = document.querySelectorAll('.pregunta');
+// Obtenim els botons i el contenidor de respostes
 var botoEnviar = document.getElementById('enviar');
 var botoMostrar = document.getElementById('mostrar-respostes');
+var botoReset = document.getElementById('reset');
 var contenedorRespostes = document.getElementById('totes-les-respostes');
 
 // Objecte per emmagatzemar respostes
 var respostes = {};
 
-// Per cada pregunta, afegim els esdeveniments a les opcions
-preguntes.forEach(function(pregunta, index) {
-    var caresPregunta = pregunta.querySelectorAll('.cara');
-    caresPregunta.forEach(function(cara) {
-        cara.addEventListener('click', function() {
-            // Desseleccionem totes les cares
-            caresPregunta.forEach(function(c) {
-                c.classList.remove('seleccionada');
-            });
-            // Seleccionem la cara clicada
-            cara.classList.add('seleccionada');
-            // Guardem la resposta
-            var valor = cara.getAttribute('data-valor');
-            respostes['pregunta' + (index + 1)] = valor;
-        });
-    });
-});
+// Comprovació de la contrasenya amb prompt
+function comprovarContrasenya(accio) {
+    var contrasenya = prompt('Introdueix la contrasenya:', '');
+
+    if (contrasenya === "Tita T'estimo") {
+        // Si la contrasenya és correcta, fem l'acció
+        if (accio === 'reset') {
+            // Esborrem les dades de localStorage
+            localStorage.clear();
+            alert('Les respostes han estat esborrades!');
+        } else if (accio === 'mostrar') {
+            // Mostrem totes les respostes guardades
+            mostrarRespostes();
+        }
+    } else {
+        // Si la contrasenya és incorrecta, mostrem un error
+        alert('Contrasenya incorrecta!');
+    }
+}
+
+// Funció per mostrar totes les respostes guardades
+function mostrarRespostes() {
+    contenedorRespostes.innerHTML = ''; // Reiniciem el contingut
+    if (localStorage.length === 0) {
+        contenedorRespostes.innerHTML = '<p>No hi ha respostes guardades encara.</p>';
+        return;
+    }
+
+    // Recollim totes les respostes guardades i les mostrem
+    for (var i = 0; i < localStorage.length; i++) {
+        var clau = localStorage.key(i);
+        // Comprovem si la clau correspon a un usuari
+        if (clau.startsWith('usuari_')) {
+            var respostesGuardades = JSON.parse(localStorage.getItem(clau));
+            var llista = `<h3>Respostes de ${clau}:</h3><ul>`;
+            for (var pregunta in respostesGuardades) {
+                llista += `<li>${pregunta}: ${cares[respostesGuardades[pregunta]]} (${respostesGuardades[pregunta]})</li>`;
+            }
+            llista += '</ul>';
+            contenedorRespostes.innerHTML += llista;
+        }
+    }
+}
 
 // Quan s'envien les respostes
 botoEnviar.addEventListener('click', function() {
@@ -44,7 +70,7 @@ botoEnviar.addEventListener('click', function() {
     // Generem el resum de les respostes amb les caretes
     var resum = 'Has guardat les següents respostes:\n';
     var preguntaCount = 1;
-    
+
     for (var pregunta in respostes) {
         // Agafem el valor de la resposta i convertim a la cara corresponent
         var resposta = respostes[pregunta];
@@ -60,35 +86,34 @@ botoEnviar.addEventListener('click', function() {
     alert(resum + '\nGràcies per la teva valoració!');
 
     // Reiniciem el formulari per un nou usuari
-    preguntes.forEach(function(pregunta) {
-        var cares = pregunta.querySelectorAll('.cara');
-        cares.forEach(function(c) {
-            c.classList.remove('seleccionada');
-        });
-    });
     respostes = {};
 });
 
-// Quan es mostren totes les respostes guardades
+// Quan es vol mostrar totes les respostes guardades
 botoMostrar.addEventListener('click', function() {
-    contenedorRespostes.innerHTML = ''; // Reiniciem el contingut
-    if (localStorage.length === 0) {
-        contenedorRespostes.innerHTML = '<p>No hi ha respostes guardades encara.</p>';
-        return;
-    }
-    
-    // Recollim totes les respostes guardades i les mostrem
-    for (var i = 0; i < localStorage.length; i++) {
-        var clau = localStorage.key(i);
-        // Comprovem si la clau correspon a un usuari
-        if (clau.startsWith('usuari_')) {
-            var respostesGuardades = JSON.parse(localStorage.getItem(clau));
-            var llista = `<h3>Respostes de ${clau}:</h3><ul>`;
-            for (var pregunta in respostesGuardades) {
-                llista += `<li>${pregunta}: ${cares[respostesGuardades[pregunta]]} (${respostesGuardades[pregunta]})</li>`;
-            }
-            llista += '</ul>';
-            contenedorRespostes.innerHTML += llista;
-        }
-    }
+    comprovarContrasenya('mostrar');
+});
+
+// Quan es vol resetear tot
+botoReset.addEventListener('click', function() {
+    comprovarContrasenya('reset');
+});
+
+// Per cada pregunta, afegim els esdeveniments a les opcions
+var preguntes = document.querySelectorAll('.pregunta');
+preguntes.forEach(function(pregunta, index) {
+    var caresPregunta = pregunta.querySelectorAll('.cara');
+    caresPregunta.forEach(function(cara) {
+        cara.addEventListener('click', function() {
+            // Desseleccionem totes les cares
+            caresPregunta.forEach(function(c) {
+                c.classList.remove('seleccionada');
+            });
+            // Seleccionem la cara clicada
+            cara.classList.add('seleccionada');
+            // Guardem la resposta
+            var valor = cara.getAttribute('data-valor');
+            respostes['pregunta' + (index + 1)] = valor;
+        });
+    });
 });
