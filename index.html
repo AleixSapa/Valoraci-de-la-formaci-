@@ -3,70 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valoració de Formació</title>
+    <title>Valoració</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <h1>Valoració de la formació</h1>
+    <div id="valoracio">
+        <h1>Valoració de la formació</h1>
 
-    <div class="pregunta">
-        <h3>Pregunta 1: Com valores la qualitat de la formació?</h3>
-        <button class="cara" data-valor="1">😢</button>
-        <button class="cara" data-valor="2">😐</button>
-        <button class="cara" data-valor="3">😊</button>
-    </div>
-
-    <div class="pregunta">
-        <h3>Pregunta 2: Va ser fàcil de seguir?</h3>
-        <button class="cara" data-valor="1">😢</button>
-        <button class="cara" data-valor="2">😐</button>
-        <button class="cara" data-valor="3">😊</button>
-    </div>
-
-    <div class="pregunta">
-        <h3>Pregunta 3: Com valores la interacció del professor?</h3>
-        <button class="cara" data-valor="1">😢</button>
-        <button class="cara" data-valor="2">😐</button>
-        <button class="cara" data-valor="3">😊</button>
-    </div>
-
-    <div class="pregunta">
-        <h3>Pregunta 4: Com valores el contingut del curs?</h3>
-        <button class="cara" data-valor="1">😢</button>
-        <button class="cara" data-valor="2">😐</button>
-        <button class="cara" data-valor="3">😊</button>
-    </div>
-
-    <div class="pregunta">
-        <h3>Pregunta 5: Va ser pràctic?</h3>
-        <button class="cara" data-valor="1">😢</button>
-        <button class="cara" data-valor="2">😐</button>
-        <button class="cara" data-valor="3">😊</button>
-    </div>
-
-    <div class="pregunta">
-        <h3>Pregunta 6: Com valores el ritme de la formació?</h3>
-        <button class="cara" data-valor="1">😢</button>
-        <button class="cara" data-valor="2">😐</button>
-        <button class="cara" data-valor="3">😊</button>
-    </div>
-
-    <button id="enviar">Enviar valoració</button>
-    <button id="reset">Resetear tot</button>
-    <button id="mostrar-respostes">Mostrar respostes</button>
-
-    <div id="totes-les-respostes"></div>
-
-    <!-- Modal per a la contrasenya -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="close-modal">&times;</span>
-            <h2>Introdueix la contrasenya</h2>
-            <input type="password" id="contrasenya" placeholder="Contrasenya">
-            <button id="confirmar-contrasenya">Confirmar</button>
-            <p id="missatge-error" style="color: red; display: none;">Contrasenya incorrecta!</p>
+        <!-- Preguntes -->
+        <div class="pregunta">
+            <p>Pregunta 1: Com valores la qualitat de la formació?</p>
+            <span class="cara" data-valor="1">😢</span>
+            <span class="cara" data-valor="2">😐</span>
+            <span class="cara" data-valor="3">😊</span>
         </div>
+
+        <div class="pregunta">
+            <p>Pregunta 2: Va ser fàcil de seguir?</p>
+            <span class="cara" data-valor="1">😢</span>
+            <span class="cara" data-valor="2">😐</span>
+            <span class="cara" data-valor="3">😊</span>
+        </div>
+
+        <div class="pregunta">
+            <p>Pregunta 3: Com valores la interacció del professor?</p>
+            <span class="cara" data-valor="1">😢</span>
+            <span class="cara" data-valor="2">😐</span>
+            <span class="cara" data-valor="3">😊</span>
+        </div>
+
+        <div class="pregunta">
+            <p>Pregunta 4: Com valores el contingut del curs?</p>
+            <span class="cara" data-valor="1">😢</span>
+            <span class="cara" data-valor="2">😐</span>
+            <span class="cara" data-valor="3">😊</span>
+        </div>
+
+        <div class="pregunta">
+            <p>Pregunta 5: Va ser pràctic?</p>
+            <span class="cara" data-valor="1">😢</span>
+            <span class="cara" data-valor="2">😐</span>
+            <span class="cara" data-valor="3">😊</span>
+        </div>
+
+        <div class="pregunta">
+            <p>Pregunta 6: Com valores el ritme de la formació?</p>
+            <span class="cara" data-valor="1">😢</span>
+            <span class="cara" data-valor="2">😐</span>
+            <span class="cara" data-valor="3">😊</span>
+        </div>
+
+        <button id="enviar">Enviar Valoració</button>
+        <button id="mostrar-respostes">Mostrar Respostes</button>
+        <button id="eliminar-respostes">Eliminar Respostes</button>
+
+        <div id="totes-les-respostes"></div>
     </div>
 
     <script src="script.js"></script>
