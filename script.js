@@ -117,4 +117,3 @@ preguntes.forEach(function(pregunta, index) {
         });
     });
 });
-    
