@@ -16,23 +16,37 @@ var contenedorRespostes = document.getElementById('totes-les-respostes');
 // Objecte per emmagatzemar respostes
 var respostes = {};
 
-// Comprovació de la contrasenya amb prompt
-function comprovarContrasenya(accio) {
-    var contrasenya = prompt('Introdueix la contrasenya:', '');
+// Modal i formulari per la contrasenya
+var modal = document.getElementById("modal");
+var closeModal = document.getElementById("close-modal");
+var contrasenyaInput = document.getElementById("contrasenya");
+var confirmarContrasenya = document.getElementById("confirmar-contrasenya");
+var missatgeError = document.getElementById("missatge-error");
+
+// Funció per mostrar el modal
+function mostrarModal() {
+    modal.style.display = "block";
+}
+
+// Funció per amagar el modal
+closeModal.addEventListener("click", function() {
+    modal.style.display = "none";
+});
+
+// Funció per verificar la contrasenya i executar l'acció
+function verificarContrasenya(accio) {
+    var contrasenya = contrasenyaInput.value;
 
     if (contrasenya === "Tita T'estimo") {
-        // Si la contrasenya és correcta, fem l'acció
+        modal.style.display = "none"; // Tancem el modal
         if (accio === 'reset') {
-            // Esborrem les dades de localStorage
             localStorage.clear();
             alert('Les respostes han estat esborrades!');
         } else if (accio === 'mostrar') {
-            // Mostrem totes les respostes guardades
             mostrarRespostes();
         }
     } else {
-        // Si la contrasenya és incorrecta, mostrem un error
-        alert('Contrasenya incorrecta!');
+        missatgeError.style.display = "block"; // Mostrem error
     }
 }
 
@@ -46,74 +60,49 @@ function mostrarRespostes() {
 
     // Recollim totes les respostes guardades i les mostrem
     for (var i = 0; i < localStorage.length; i++) {
-        var clau = localStorage.key(i);
-        // Comprovem si la clau correspon a un usuari
-        if (clau.startsWith('usuari_')) {
-            var respostesGuardades = JSON.parse(localStorage.getItem(clau));
-            var llista = `<h3>Respostes de ${clau}:</h3><ul>`;
-            for (var pregunta in respostesGuardades) {
-                llista += `<li>${pregunta}: ${cares[respostesGuardades[pregunta]]} (${respostesGuardades[pregunta]})</li>`;
-            }
-            llista += '</ul>';
-            contenedorRespostes.innerHTML += llista;
-        }
+        var pregunta = localStorage.key(i);
+        var resposta = localStorage.getItem(pregunta);
+        contenedorRespostes.innerHTML += '<p>' + pregunta + ': ' + cares[resposta] + '</p>';
     }
 }
 
-// Quan s'envien les respostes
+// Funció per enviar les respostes
 botoEnviar.addEventListener('click', function() {
-    if (Object.keys(respostes).length < 6) {
-        alert('Si us plau, respon totes les preguntes!');
-        return;
-    }
-
-    // Generem el resum de les respostes amb les caretes
-    var resum = 'Has guardat les següents respostes:\n';
-    var preguntaCount = 1;
-
-    for (var pregunta in respostes) {
-        // Agafem el valor de la resposta i convertim a la cara corresponent
-        var resposta = respostes[pregunta];
-        resum += `Pregunta ${preguntaCount}: ${cares[resposta]} (${resposta})\n`;
-        preguntaCount++;
-    }
-
-    // Guardem les respostes al localStorage amb un ID únic
-    var idUsuari = 'usuari_' + Date.now();
-    localStorage.setItem(idUsuari, JSON.stringify(respostes));
-
-    // Mostrem el missatge amb el resum
-    alert(resum + '\nGràcies per la teva valoració!');
-
-    // Reiniciem el formulari per un nou usuari
-    respostes = {};
-});
-
-// Quan es vol mostrar totes les respostes guardades
-botoMostrar.addEventListener('click', function() {
-    comprovarContrasenya('mostrar');
-});
-
-// Quan es vol resetear tot
-botoReset.addEventListener('click', function() {
-    comprovarContrasenya('reset');
-});
-
-// Per cada pregunta, afegim els esdeveniments a les opcions
-var preguntes = document.querySelectorAll('.pregunta');
-preguntes.forEach(function(pregunta, index) {
-    var caresPregunta = pregunta.querySelectorAll('.cara');
-    caresPregunta.forEach(function(cara) {
-        cara.addEventListener('click', function() {
-            // Desseleccionem totes les cares
-            caresPregunta.forEach(function(c) {
-                c.classList.remove('seleccionada');
-            });
-            // Seleccionem la cara clicada
-            cara.classList.add('seleccionada');
-            // Guardem la resposta
-            var valor = cara.getAttribute('data-valor');
-            respostes['pregunta' + (index + 1)] = valor;
-        });
+    // Recollim totes les respostes
+    var preguntes = document.querySelectorAll('.pregunta');
+    preguntes.forEach(function(pregunta, index) {
+        var resposta = pregunta.querySelector('.cara.seleccionada');
+        if (resposta) {
+            respostes['Pregunta ' + (index + 1)] = resposta.getAttribute('data-valor');
+            localStorage.setItem('Pregunta ' + (index + 1), resposta.getAttribute('data-valor'));
+        }
     });
+
+    alert('Valoració enviada!');
+});
+
+// Funció per resetear les respostes
+botoReset.addEventListener('click', function() {
+    mostrarModal(); // Mostrem el modal per demanar la contrasenya
+});
+
+// Funció per mostrar les respostes
+botoMostrar.addEventListener('click', function() {
+    mostrarModal(); // Mostrem el modal per demanar la contrasenya
+});
+
+// Funció per seleccionar les cares
+document.querySelectorAll('.cara').forEach(function(button) {
+    button.addEventListener('click', function() {
+        var pregunta = this.parentElement;
+        pregunta.querySelectorAll('.cara').forEach(function(btn) {
+            btn.classList.remove('seleccionada');
+        });
+        this.classList.add('seleccionada');
+    });
+});
+
+// Comportament del botó de confirmar contrasenya
+confirmarContrasenya.addEventListener('click', function() {
+    verificarContrasenya('reset');
 });
